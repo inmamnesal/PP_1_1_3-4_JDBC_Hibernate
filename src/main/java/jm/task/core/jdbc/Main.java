@@ -1,33 +1,30 @@
 package jm.task.core.jdbc;
 
-import jm.task.core.jdbc.dao.UserDao;
-import jm.task.core.jdbc.dao.UserDaoJDBCImpl;
 import jm.task.core.jdbc.model.User;
-import jm.task.core.jdbc.util.Util;
+import jm.task.core.jdbc.service.UserService;
+import jm.task.core.jdbc.service.UserServiceImpl;
 
-import java.sql.Connection;
 import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-//        Util.getConnection();
-        UserDao userDao = new UserDaoJDBCImpl();
+        UserService userService = new UserServiceImpl();
 
-        userDao.dropUsersTable();
-        userDao.createUsersTable();
+//        UserDao userDao = new UserDaoJDBCImpl();
 
-//        userDao.createUsersTable();
-//        userDao.dropUsersTable();
-//        userDao.createUsersTable();
-        userDao.saveUser("test1", "test2", (byte)20);
-        userDao.saveUser("Ivan", "Petrov", (byte)30);
-        userDao.saveUser("John", "Peters", (byte)40);
-        userDao.saveUser("Hans", "Peter", (byte)50);
+        userService.dropUsersTable();
+        userService.createUsersTable();
 
-        List<User> allUsers = userDao.getAllUsers();
+
+        userService.saveUser("test1", "test2", (byte)20);
+//        userDao.saveUser("Ivan", "Petrov", (byte)30);
+//        userDao.saveUser("John", "Peters", (byte)40);
+//        userDao.saveUser("Hans", "Peter", (byte)50);
+
+        List<User> allUsers = userService.getAllUsers();
         allUsers.stream()
                 .forEach(System.out::println);
 
-        userDao.dropUsersTable();
+        userService.dropUsersTable();
     }
 }

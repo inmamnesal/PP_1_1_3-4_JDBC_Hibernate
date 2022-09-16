@@ -2,16 +2,16 @@ package jm.task.core.jdbc.dao;
 
 import jm.task.core.jdbc.model.User;
 import jm.task.core.jdbc.util.Util;
+//import jm.task.core.jdbc.util.Util;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserDaoJDBCImpl extends Util implements UserDao {
-
-    protected final String tableName = "user";
+public class UserDaoJDBCImpl implements UserDao {
+    private final String tableName = "user";
     private static long USER_COUNT;
-    Connection connection = getConnection();
+    Connection connection = Util.getConnection();
 
     public UserDaoJDBCImpl() {
 
@@ -19,7 +19,7 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
     public void createUsersTable() {
         String sql = "CREATE TABLE users (\n" +
-                "    id bigint,\n" +
+                "    id bigint AUTO_INCREMENT PRIMARY KEY NOT NULL,\n" +
                 "    name varchar(40),\n" +
                 "    lastname varchar(40),\n" +
                 "    age tinyint)";
@@ -41,13 +41,13 @@ public class UserDaoJDBCImpl extends Util implements UserDao {
 
     public void saveUser(String name, String lastName, byte age) {
 
-        String sql = "INSERT INTO users (id, name, lastname, age) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO users (name, lastname, age) VALUES (?, ?, ?)";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
-            preparedStatement.setLong(1, ++USER_COUNT);
-            preparedStatement.setString(2, name);
-            preparedStatement.setString(3, lastName);
-            preparedStatement.setByte(4, age);
+//            preparedStatement.setLong(1, ++USER_COUNT);
+            preparedStatement.setString(1, name);
+            preparedStatement.setString(2, lastName);
+            preparedStatement.setByte(3, age);
             preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
